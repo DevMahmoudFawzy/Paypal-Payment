@@ -8,8 +8,9 @@ Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app w
 
 ## Integration steps
 
- 1. You Need To Have Paypal Business Account (You Can Create New One, Or use your current but make sure it's business Account)
- 2. Go To [Paypal Developer](https://developer.paypal.com/) 
+ 1. You Need To Have Paypal Business Account (You Can Create New One, Or use your current)
+ 2. Go To [Paypal Developer](https://developer.paypal.com/) and [Log into Dashboard](https://www.paypal.com/signin?returnUri=https%3A%2F%2Fdeveloper.paypal.com%2Fdeveloper%2Fapplications) with your business account.
+ 3. 
 
 ## Further help
 
