@@ -1,0 +1,16 @@
+<div class="ui-g">
+    <div class="ui-g-6 ui-md-3" *ngFor="let product of products">
+        <p-card [header]="product.Name" subheader="Price: ${{product.price}}" [style]="{width: '360px'}"
+            styleClass="ui-card-shadow">
+            <p-header>
+                <img src="Card" height="250" [src]="product.image">
+            </p-header>
+            <div>{{ product.desc }}</div>
+            <p-footer>
+                <button pButton type="button" (click)="pay(product)" label="Pay with Paypal" icon="pi pi-check"
+                    style="margin-right: .25em"></button>
+            </p-footer>
+        </p-card>
+
+    </div>
+</div>
