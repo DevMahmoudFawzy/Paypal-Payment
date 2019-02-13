@@ -1,6 +1,6 @@
-# PaypalPaymentDemo
+# Paypal Payment Demo
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.1.
+This Front-End project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.1 & the Back-End Project was generated with [Node.js](https://nodejs.org/en/) version 10.15.1.
 
 ## Development server
 
