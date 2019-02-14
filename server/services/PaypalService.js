@@ -53,13 +53,9 @@ function createPayment(appAccessToken, origin) {
             .then(reply => {
                 const approval_url = reply.links.find(a => a.rel === 'approval_url').href;
                 resolve(approval_url);
-                // console.log(approval_url);
-                // return res.send({ status: true, url: approval_url });
             })
             .catch(err => {
-                // console.log(err);
                 reject(err);
-                // return res.status(500).send({ status: false, message: 'server error!!' });
             });
     });
 }

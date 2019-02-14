@@ -3,10 +3,6 @@ const router = express.Router();
 
 const { AuthenticateApp, CreatePayment } = require('../services/PaypalService');
 
-router.get('/pay', (req, res) => {
-    res.send('asdasd');
-});
-
 router.post('/pay', async (req, res) => {
 
     try {
