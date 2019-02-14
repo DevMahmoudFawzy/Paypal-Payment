@@ -24,13 +24,25 @@ Use the Payments API to easily and securely accept online and mobile PayPal paym
  
  6.	**Optional**	Search payment details.
  
+## Create sandbox accounts
+
+To generate mock transactions to test your app, complete these steps twice. First, create a business account to represent the merchant in a transaction. Then, create a personal account to represent the customer in a transaction.
+
+ 1. From the Developer Portal, click Log into Dashboard and enter your PayPal business account email and password.
+
+ > Note: If you do not have a business account, click Sign Up.
+ 
+ 2. Under Sandbox, click Accounts. Then, click Create Account.
+
+ 3. In the dialog box, enter these required fields:
+ 
 ## Get an access token
 
  1. Create a PayPal app. In response, PayPal generates a set of OAuth credentials.
 
  2. Pass the OAuth credentials in a get access token call. In response, the PayPal authorization server issues an access token that you must use for authentication when you make REST API calls.
  
-### Create a PayPal app
+#### Create a PayPal app
 
  1. On the My Apps & Credentials page, click Log into Dashboard.
 
