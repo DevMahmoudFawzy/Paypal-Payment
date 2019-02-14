@@ -6,17 +6,37 @@ This Front-End project was generated with [Angular CLI](https://github.com/angul
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
+## PayPal Payments
+
+Use the Payments API to easily and securely accept online and mobile PayPal payments. You can enable customers to make PayPal payments with only a few clicks, depending on the country. A completed payment is known as a sale.
+
 ## Integration steps
 
- 1. You Need To Have Paypal Business Account (You Can Create New One, Or use your current). 
+ 1. **Required**	Get an access token.
+ 
+ 2. **Required**	Create sandbox accounts.
+ 
+ 3. **Required**	Create PayPal payment.
+ 
+ 4.	**Required**	Get payment approval.
+ 
+ 5.	**Required**	Execute payment.
+ 
+ 6.	**Optional**	Search payment details.
+ 
+## Get an access token
 
- 2. Go To [Paypal Developer](https://developer.paypal.com/) and [Log into Dashboard](https://www.paypal.com/signin?returnUri=https%3A%2F%2Fdeveloper.paypal.com%2Fdeveloper%2Fapplications) with your business account.
+ 1. Create a PayPal app. In response, PayPal generates a set of OAuth credentials.
 
- 3. [Create SandBox Business Account](https://developer.paypal.com/developer/accounts/), it's called sandbox because it's only for testing purposes, and you can only login with it in [SandBox Paypal](https://www.sandbox.paypal.com).
+ 2. Pass the OAuth credentials in a get access token call. In response, the PayPal authorization server issues an access token that you must use for authentication when you make REST API calls.
+ 
+### Create a PayPal app
 
- 4. [On the My Apps & Credentials page](https://developer.paypal.com/developer/applications), In the REST API apps section, click Create App, then select the business sandbox account you created from the dropdown.
+ 1. On the My Apps & Credentials page, click Log into Dashboard.
 
- 5. Copy & save the Client ID & Secret, PayPal generates a set of OAuth 2.0 client_id and secret credentials for your app for both the sandbox and live environments.
+ 2. In the REST API apps section, click Create App.
+
+ > PayPal generates a set of OAuth 2.0 client_id and secret credentials for your app for both the sandbox and live environments.
 
 ## Further help
 
