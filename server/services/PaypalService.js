@@ -1,5 +1,6 @@
 const fetch = require('node-fetch');
 const base64 = require('base-64');
+const fs = require('fs');
 
 function authenticateApp() {
     const username = 'AUN7VSNweEDzKHyZOQwERvZ4xR-LXcPU2UNPorGfwOYMguRIouCfD0qQKE9qw6YVIKd0BR0Te2BggMuO';
@@ -17,8 +18,12 @@ function authenticateApp() {
             body: "grant_type=client_credentials"
         })
             .then(res => res.json())
-            .then(reply => { console.log('200 success!!'); resolve(reply.access_token) })
+            .then(reply => {
+                console.log('200 success!!');
+                resolve(reply.access_token);
+            })
             .catch(err => {
+                console.log('ozo error here');
                 reject(err);
             });
     });
@@ -46,12 +51,29 @@ function createPayment(appAccessToken, origin) {
                     "redirect_urls": {
                         "return_url": "${origin}/payment/success",
                         "cancel_url": "${origin}/payment/error"
-                    },
+                    }
                 }`
         })
             .then(response => response.json())
             .then(reply => {
                 const approval_url = reply.links.find(a => a.rel === 'approval_url').href;
+                var obj = {
+                    table: []
+                };
+                fs.readFile('./data/paypal_data.json', 'utf8', function readFileCallback(err, data) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        if (data) {
+                            obj = JSON.parse(data); //now it an object
+                        }
+                        obj.table.push({ PaymentID: reply.id, CreateTime: reply.create_time, AccessToken: appAccessToken }); //add some data
+                        var json = JSON.stringify(obj); //convert it back to json
+                        fs.writeFile('./data/paypal_data.json', json, 'utf8', (err2, data2) => {
+
+                        }); // write it back
+                    }
+                });
                 resolve(approval_url);
             })
             .catch(err => {
@@ -60,7 +82,51 @@ function createPayment(appAccessToken, origin) {
     });
 }
 
+function executePayment(paymentId, payerId) {
+    return new Promise((resolve, reject) => {
+        fs.readFile('./data/paypal_data.json', 'utf8', function readFileCallback(err, data) {
+            if (err) {
+                reject(err);
+            } else {
+                if (data) {
+                    var obj = JSON.parse(data); //now it an object
+                    const paymentIndex = obj.table.findIndex(a => a.PaymentID == paymentId);
+                    if (paymentIndex !== -1) {
+                        obj.table[paymentIndex].PayerID = payerId;
+                        var json = JSON.stringify(obj); //convert it back to json
+                        fs.writeFile('./data/paypal_data.json', json, 'utf8', (err2, data2) => {
+
+                        }); // write it back
+                        fetch(`https://api.sandbox.paypal.com/v1/payments/payment/${paymentId}/execute`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': 'Bearer ' + obj.table[paymentIndex].AccessToken
+                            },
+                            body: `{
+                                    "payer_id": "${payerId}"
+                                }`
+                        })
+                            .then(response => response.json())
+                            .then(reply => {
+                                resolve(reply);
+                            })
+                            .catch(err => {
+                                reject(err);
+                            });
+                    } else {
+                        reject('no id');
+                    }
+                } else {
+                    reject('no data');
+                }
+            }
+        });
+    });
+}
+
 module.exports = {
     AuthenticateApp: authenticateApp,
-    CreatePayment: createPayment
+    CreatePayment: createPayment,
+    ExecutePayment: executePayment
 };

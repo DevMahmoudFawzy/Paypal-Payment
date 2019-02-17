@@ -1,13 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-products',
   templateUrl: './products.component.html',
   styleUrls: ['./products.component.css']
 })
-export class ProductsComponent implements OnInit {
+export class ProductsComponent implements OnInit, OnDestroy {
+
+  paySubscription: Subscription;
 
   products: any[] = [
     {
@@ -27,24 +29,29 @@ export class ProductsComponent implements OnInit {
   ];
 
   constructor(
-    private http: HttpClient,
-    private router: Router
+    private http: HttpClient
   ) { }
 
   ngOnInit() {
   }
 
   pay(product) {
-    this.http.post('http://localhost:3000/paypal/pay', { Product: product })
+    this.paySubscription = this.http.post('http://localhost:3000/paypal/pay', { Product: product })
       .subscribe(
         (response: any) => {
           console.log(response);
-          window.location.href = response.url;
+          window.location.href = response.ApprovalURL;
         },
         (error) => {
           console.log(error);
         }
       );
+  }
+
+  ngOnDestroy() {
+    if (this.paySubscription) {
+      this.paySubscription.unsubscribe();
+    }
   }
 
 }

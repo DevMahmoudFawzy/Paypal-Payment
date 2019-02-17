@@ -1,10 +1,9 @@
 const express = require('express');
 const router = express.Router();
 
-const { AuthenticateApp, CreatePayment } = require('../services/PaypalService');
+const { AuthenticateApp, CreatePayment, ExecutePayment } = require('../services/PaypalService');
 
 router.post('/pay', async (req, res) => {
-
     try {
         const accessToken = await AuthenticateApp();
         if (accessToken) {
@@ -13,6 +12,15 @@ router.post('/pay', async (req, res) => {
         }
     } catch (error) {
         return res.status(500).send({ status: false, message: 'server error!!' });
+    }
+});
+
+router.post('/execute', async (req, res) => {
+    try {
+        const ddd = await ExecutePayment(req.body.PaymentID, req.body.PayerID);
+        return res.send({ status: true, message: 'success' });
+    } catch (error) {
+        return res.status(500).send({ status: false, message: 'error' });
     }
 });
 
